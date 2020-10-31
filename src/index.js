@@ -4,14 +4,13 @@ import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { store } from "./store";
+import { Provider } from "react-redux";
 
-// wrap the rendering of the app in a fuction call
-const render = () => ReactDOM.render(<App />, document.getElementById("root"));
-
-// re-render the app whenever there is changes to the data store
-store.subscribe(render);
-
-// do the initial rendering of the app
-render();
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
 
 registerServiceWorker();

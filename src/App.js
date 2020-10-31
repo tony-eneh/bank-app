@@ -2,12 +2,21 @@ import React, { Component } from "react";
 import formatNumber from "format-number";
 import photographer from "./images/girl.png";
 import "./App.css";
-import { store } from "./store";
 import { withdrawMoneyAction, giveAllToCharityAction } from "./actions";
+import { connect } from "react-redux";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.props = props;
+  }
   render() {
-    const { totalAmount, username } = store.getState();
+    const {
+      totalAmount,
+      username,
+      withdrawMoneyAction,
+      giveAllToCharityAction,
+    } = this.props;
 
     return (
       <div className="App">
@@ -22,7 +31,7 @@ class App extends Component {
           <button
             data-amount="10000"
             onClick={(event) =>
-              store.dispatch(withdrawMoneyAction(event.target.dataset.amount))
+              withdrawMoneyAction(event.target.dataset.amount)
             }
           >
             WITHDRAW $10,000
@@ -30,17 +39,14 @@ class App extends Component {
           <button
             data-amount="5000"
             onClick={(event) =>
-              store.dispatch(withdrawMoneyAction(event.target.dataset.amount))
+              withdrawMoneyAction(event.target.dataset.amount)
             }
           >
             WITHDRAW $5,000
           </button>
         </section>
 
-        <p
-          className="App__giveaway"
-          onClick={() => store.dispatch(giveAllToCharityAction())}
-        >
+        <p className="App__giveaway" onClick={giveAllToCharityAction}>
           Give away all your cash to charity
         </p>
       </div>
@@ -48,4 +54,9 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps, {
+  withdrawMoneyAction,
+  giveAllToCharityAction,
+})(App);
